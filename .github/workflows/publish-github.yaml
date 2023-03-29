@@ -12,6 +12,7 @@ on:
           type=ref,event=tag
           type=ref,event=pr
           type=sha,prefix=sha-,format=short
+          type=raw,value=latest,enable={{is_default_branch}}
         type: string
         description: Zero or many tags to use. Different tags should be separated by new lines. See https://github.com/docker/metadata-action#tags-input
       push-image:
