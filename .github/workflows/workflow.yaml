@@ -34,11 +34,19 @@ on:
       build-file:
         required: false
         type: string
-        description: The build file to use for the build. See hhttps://github.com/docker/build-push-action#inputs
+        description: The build file to use for the build. See https://github.com/docker/build-push-action#inputs
       build-args:
         required: false
         type: string
-        description: The build args to use for the build. See hhttps://github.com/docker/build-push-action#inputs
+        description: The build args to use for the build. See https://github.com/docker/build-push-action#inputs
+      build-target:
+        required: false
+        type: string
+        description: The build target to use for the build. See https://github.com/docker/build-push-action#inputs
+      build-always-pull:
+        required: false
+        type: string
+        description: If the build should always pull referenced images. See https://github.com/docker/build-push-action#inputs
     secrets:
       registry-username:
         required: true
@@ -74,6 +82,8 @@ jobs:
           file: ${{ inputs.build-file }}
           context: ${{ inputs.build-context }}
           push: ${{ inputs.push-image }}
+          pull: ${{ inputs.build-always-pull }}
+          target: ${{ inputs.build-target }}
           cache-from: ${{ inputs.push-image && format('type=registry,ref={0}:cache', inputs.image-name) || ''}}
           cache-to: ${{ inputs.push-image && format('type=registry,ref={0}:cache,mode=max', inputs.image-name) || ''}}
           tags: ${{ steps.meta.outputs.tags }}
