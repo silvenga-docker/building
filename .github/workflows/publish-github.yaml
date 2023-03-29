@@ -57,6 +57,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.IMAGE }}
+          tags: ${{ inputs.image-tags }}
       - uses: docker/build-push-action@v4
         id: build
         with:
