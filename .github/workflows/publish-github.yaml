@@ -6,8 +6,8 @@ on:
         description: The suffix of the image, e.g. ghcr.io/org/<suffix>
       image-tags:
         default: |
-          type=schedule
-          type=schedule,pattern={{date 'YYYYMMDD'}}
+          type=schedule,pattern=weekly
+          type=schedule,pattern=weekly-{{date 'YYYYMMDD'}}
           type=ref,event=branch
           type=ref,event=tag
           type=ref,event=pr
@@ -53,9 +53,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Docker Meta
+      - uses: docker/metadata-action@v4
         id: meta
-        uses: docker/metadata-action@v4
         with:
           images: ${{ env.IMAGE }}
           tags: ${{ inputs.image-tags }}
