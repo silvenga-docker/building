@@ -35,6 +35,10 @@ on:
         type: boolean
         default: true
         description: If the build should always pull referenced images. See https://github.com/docker/build-push-action#inputs
+      no-cache:
+        type: boolean
+        default: false
+        description: If the build should always pull referenced images. See https://github.com/docker/build-push-action#inputs
 
 jobs:
   publish-github:
@@ -66,8 +70,9 @@ jobs:
           push: ${{ inputs.push-image }}
           pull: ${{ inputs.build-always-pull }}
           target: ${{ inputs.build-target }}
-          cache-from: ${{ inputs.push-image && format('type=registry,ref={0}:cache', env.IMAGE) || ''}}
-          cache-to: ${{ inputs.push-image && format('type=registry,ref={0}:cache,mode=max', env.IMAGE) || ''}}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: ${{ inputs.build-args }}
+          no-cache: ${{ inputs.no-cache }}
